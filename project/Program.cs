@@ -1,4 +1,5 @@
 
+using System.Reflection;
 using XalyEngine;
 
 var scene = new Scene
@@ -8,14 +9,13 @@ var scene = new Scene
 
 var entity = new Entity
 {
-    Name = "Player",
-    Nodes = new List<Node>()
+    Name = "Player"
 };
 
 entity.Nodes.Add(new Transform());
 entity.Nodes.Add(new Script()
 {
-    Assembly = "XalyProject.PlayerMovement",
+    Fullname = "PlayerMovement, XalyProject",
     Parameters = new()
     {
         { "velocity", "100" },

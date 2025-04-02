@@ -6,6 +6,7 @@ public abstract class Node
     public Entity? Entity { get; internal set; }
     public string Type { get; internal set; } = string.Empty;
     public bool IsActive { get; set; }
+    internal bool IsInitialized { get; set; }
 
     public virtual void OnInitialize() { }
     public virtual void OnStart() { }
