@@ -19,7 +19,18 @@ entity.Nodes.Add(new Script()
     Parameters = new()
     {
         { "velocity", "100" },
-        { "key", "A" }
+        { "key", "A" },
+        { "name", "Filipe" }
+    },
+});
+entity.Nodes.Add(new Script()
+{
+    Fullname = "PlayerMovement, XalyProject",
+    Parameters = new()
+    {
+        { "velocity", "300" },
+        { "key", "C" },
+        { "name", "Alecio" }
     },
 });
 

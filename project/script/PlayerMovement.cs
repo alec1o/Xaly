@@ -3,18 +3,24 @@ using XalyEngine;
 public class PlayerMovement : Script
 {
     public int velocity { get; set; }
-    private float time;
+    private float time, _timer;
     public string key { get; set; } = "Z";
+    public string name { get; set; } = "Player";
 
     public override void OnInitialize()
     {
-        Console.WriteLine("Player initialize");
+        Console.WriteLine($"Player ({name}) initialize");
     }
 
     public override void OnUpdate()
     {
         time += Time.Delta;
-        Console.Write($"\rPlayer update: {time}");
+        _timer += Time.Delta;
+        if (_timer >= 5)
+        {
+            _timer = 0;
+            Console.WriteLine($"\rPlayer ({name}) update: {time}");
+        }
     }
 
     public override void OnActivate()

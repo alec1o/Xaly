@@ -60,7 +60,6 @@ public class Scene
 
                     foreach (var property in properties.ToArray())
                     {
-                        Console.WriteLine(property.Name);
                         if (script.Parameters.TryGetValue(property.Name, out var value))
                         {
                             property.SetValue(xInstance, StringToObject(value, property.PropertyType));
@@ -86,7 +85,6 @@ public class Scene
 
     private string ObjectToString(object? value, Type type)
     {
-        Console.WriteLine(type.FullName);
         if (value == null) return string.Empty;
         var name = type.FullName;
         if (name == typeof(string).FullName) return (string)value;
@@ -98,8 +96,6 @@ public class Scene
 
     private object? StringToObject(string value, Type type)
     {
-
-        Console.WriteLine(type.FullName);
         if (value == null) return null;
         var name = type.FullName;
         if (name == typeof(string).FullName) return value;
