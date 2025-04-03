@@ -1,15 +1,20 @@
-using System.Diagnostics;
-using System.Text.Json;
 using XalyEngine;
+using Silk.NET.OpenGLES;
+using Silk.NET.Windowing;
+using Silk.NET.Input;
+using SilkWindow = Silk.NET.Windowing.Window;
+using System.Drawing;
 
 public static class Application
 {
     public static bool IsActive { get; private set; }
     public static bool IsInitialized { get; private set; }
     public static Scene Scene { get; private set; } = new();
-    public static Window Window { get; private set; } = new();
+    public static XalyEngine.Window Window { get; private set; } = new();
     public static Input Input { get; private set; } = new();
     private static readonly object mutex = new();
+    private static IWindow? _window;
+    private static GL? _gl;
 
     internal static IList<Scene> Scenes = [];
     public static void Initialize(IList<Scene> scenes)
@@ -46,19 +51,53 @@ public static class Application
             IsActive = true;
         }
 
-        Time.Start();
-        Scene.Start();
+        var windowOptions = WindowOptions.Default;
+        windowOptions.Size = new(Window.Width, Window.Height);
+        windowOptions.Title = Window.Title;
+        windowOptions.IsVisible = Window.IsVisible;
+        windowOptions.FramesPerSecond = Window.FrameRate;
+        windowOptions.WindowState = WindowState.Normal;
 
-        while (IsActive)
+        _window = SilkWindow.Create(windowOptions);
+
+        _window.Load += () =>
         {
+            _gl = _window.CreateOpenGLES();
+            _gl.ClearColor(Color.Aqua);
+            Time.Start();
+            Scene.Start();
+        };
+
+        _window.Update += (deltaTime) =>
+        {
+            Time.Delta = (float)deltaTime;
             Time.Update();
             Scene.Update();
+        };
 
-            //Console.Write($"\rGame loop ({Time.Seconds:0.00}s). [{Time.Delta:0.00000000}]. FPS: {Time.Frames}");
-        }
+        _window.Render += (render) =>
+        {
+            _gl.Clear(ClearBufferMask.ColorBufferBit);
+            Scene.Render();
+        };
 
-        Scene.Stop();
-        Time.Stop();
+        _window.Closing += () =>
+        {
+            Time.Stop();
+            Scene.Stop();
+        };
+
+        _window.FramebufferResize += (size) =>
+        {
+            _gl.Viewport(size);
+        };
+
+        _window.FocusChanged += (isFocus) =>
+        {
+
+        };
+
+        _window.Run();
     }
 
     public static void Quit()

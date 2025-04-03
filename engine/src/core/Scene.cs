@@ -168,4 +168,9 @@ public class Scene
             }
         }
     }
+
+    public void Render()
+    {
+
+    }
 }

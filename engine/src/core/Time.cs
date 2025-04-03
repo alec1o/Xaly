@@ -4,27 +4,34 @@ namespace XalyEngine;
 
 public static class Time
 {
-    public static float Delta => (float)_delta;
-    public static float Scale { get => (float)_scale; set => _scale = value; }
-    public static float Seconds => (float)_currentTime;
-    public static int Frames => (int)_currentFps;
+    public static float Delta { get; internal set; }
+    public static float Scale { get; set; } = 1;
+    public static float Seconds { get; private set; }
+    public static int FPS { get; private set; }
 
     private static bool _isInitialized = false;
-    private static double _lastTime, _currentTime, _fpsTimer, _delta, _scale = 1, _currentFps;
+    private static float _currentTime, _fpsTimer;
     private static int _fpsCounter;
-    private static Stopwatch _watch = new();
 
     internal static void Start()
     {
         if (_isInitialized) return;
-        _watch.Restart();
+
+        Seconds = 0;
+        Delta = 0;
+        FPS = 0;
+        Scale = 1;
+
         _isInitialized = true;
     }
 
     internal static void Stop()
     {
         if (!_isInitialized) return;
-        _watch.Stop();
+
+        FPS = 0;
+        Delta = 0;
+
         _isInitialized = false;
     }
 
@@ -32,15 +39,13 @@ public static class Time
     {
         if (!_isInitialized) return;
 
-        _currentTime = _watch.Elapsed.TotalSeconds;
-        _delta = (_currentTime - _lastTime) * _scale;
-        _lastTime = _currentTime;
+        Seconds += Delta;
+        _fpsTimer += Delta;
         _fpsCounter++;
-        _fpsTimer += _delta;
 
         if (_fpsTimer >= 1F)
         {
-            _currentFps = _fpsCounter;
+            FPS = _fpsCounter;
             _fpsCounter = 0;
             _fpsTimer = 0;
         }
