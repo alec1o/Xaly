@@ -77,7 +77,7 @@ public static class Application
 
         _window.Render += (render) =>
         {
-            _gl.Clear(ClearBufferMask.ColorBufferBit);
+            _gl?.Clear(ClearBufferMask.ColorBufferBit);
             Scene.Render();
         };
 
@@ -89,7 +89,7 @@ public static class Application
 
         _window.FramebufferResize += (size) =>
         {
-            _gl.Viewport(size);
+            _gl?.Viewport(size);
         };
 
         _window.FocusChanged += (isFocus) =>

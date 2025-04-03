@@ -19,7 +19,7 @@ public class PlayerMovement : Script
         if (_timer >= 5)
         {
             _timer = 0;
-            Console.WriteLine($"\rPlayer ({name}) update: {time}");
+            Console.WriteLine($"\rPlayer ({name}) update: {time} [{Time.FPS} FPS]");
         }
     }
 

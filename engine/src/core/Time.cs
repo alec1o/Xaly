@@ -10,7 +10,7 @@ public static class Time
     public static int FPS { get; private set; }
 
     private static bool _isInitialized = false;
-    private static float _currentTime, _fpsTimer;
+    private static float _fpsTimer;
     private static int _fpsCounter;
 
     internal static void Start()
