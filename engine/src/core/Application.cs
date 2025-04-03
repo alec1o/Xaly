@@ -14,7 +14,7 @@ public static class Application
     public static Input Input { get; private set; } = new();
     private static readonly object mutex = new();
     private static IWindow? _window;
-    private static GL? _gl;
+    internal static GL gl { get; set; } = null!;
 
     internal static IList<Scene> Scenes = [];
     public static void Initialize(IList<Scene> scenes)
@@ -59,13 +59,14 @@ public static class Application
         windowOptions.WindowState = WindowState.Normal;
 
         _window = SilkWindow.Create(windowOptions);
-
+        var mesh = new Mesh();
         _window.Load += () =>
         {
-            _gl = _window.CreateOpenGLES();
-            _gl.ClearColor(Color.Aqua);
+            gl = _window.CreateOpenGLES();
+            gl.ClearColor(Color.Aqua);
             Time.Start();
             Scene.Start();
+            mesh.OnInitialize();
         };
 
         _window.Update += (deltaTime) =>
@@ -77,8 +78,9 @@ public static class Application
 
         _window.Render += (render) =>
         {
-            _gl?.Clear(ClearBufferMask.ColorBufferBit);
+            gl?.Clear(ClearBufferMask.ColorBufferBit);
             Scene.Render();
+            mesh.OnRender();
         };
 
         _window.Closing += () =>
@@ -89,7 +91,7 @@ public static class Application
 
         _window.FramebufferResize += (size) =>
         {
-            _gl?.Viewport(size);
+            gl?.Viewport(size);
         };
 
         _window.FocusChanged += (isFocus) =>

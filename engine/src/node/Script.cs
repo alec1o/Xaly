@@ -16,6 +16,7 @@ public class Script : Node
     public override void OnStart() => Instance?.OnStart();
     public override void OnFixedUpdate() => Instance?.OnFixedUpdate();
     public override void OnUpdate() => Instance?.OnUpdate();
+    public override void OnRender() => Instance?.OnRender();
     public override void OnPostUpdate() => Instance?.OnPostUpdate();
     public override void OnDeactivate() => Instance?.OnDeactivate();
     public override void OnDestroy() => Instance?.OnDestroy();

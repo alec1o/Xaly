@@ -13,6 +13,7 @@ public abstract class Node
     public virtual void OnUpdate() { }
     public virtual void OnFixedUpdate() { }
     public virtual void OnPostUpdate() { }
+    public virtual void OnRender() { }
     public virtual void OnActivate() { }
     public virtual void OnDeactivate() { }
     public virtual void OnDestroy() { }

@@ -123,8 +123,8 @@ public class Scene
             foreach (var x in entity.Nodes.ToArray())
             {
                 x.IsActive = false;
-                x.OnDeactivate();
-                x.OnDestroy();
+                x?.OnDeactivate();
+                x?.OnDestroy();
             }
 
             foreach (var x in entity.Entities.ToArray())
@@ -153,8 +153,8 @@ public class Scene
                 if (!x.IsInitialized)
                 {
                     x.IsInitialized = true;
-                    x.OnInitialize();
-                    x.OnStart();
+                    x?.OnInitialize();
+                    x?.OnStart();
                 }
 #if false
                 if (Time.BeginFixed)
@@ -163,8 +163,8 @@ public class Scene
                     Time.EndFixed;
                 }
 #endif
-                x.OnUpdate();
-                x.OnPostUpdate();
+                x?.OnUpdate();
+                x?.OnPostUpdate();
             }
         }
     }
